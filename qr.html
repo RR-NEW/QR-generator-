@@ -1,22 +1,37 @@
-var qr = require('qr-img.png');
- 
-var qr_svg = qr.image('I love QR!', { type: 'svg' });
-qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
- 
-var svg_string = qr.imageSync('I love QR!', { type: 'svg' });
-import inquirer from 'inquirer';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-inquirer
-  .prompt([
-    /* Pass your questions in here */
-  ])
-  .then((answers) => {
-    // Use user feedback for... whatever!!
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+    <div class="container">
+
+        <h1>QR Code Generator</h1>
+
+        <p>Enter a URL or any text below to generate your QR code instantly.</p>
+
+        <div class="input-box">
+            <input
+                type="text"
+                id="qrText"
+                placeholder="Enter text or URL">
+        </div>
+
+        <div class="button-box">
+            <button id="generateBtn">Generate QR Code</button>
+        </div>
+
+        <div class="qr-box">
+            <img id="qrImage" src="" alt="QR Code">
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
