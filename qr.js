@@ -1,28 +1,16 @@
-import inquirer from "inquirer";
-import qr from "qr-image";
-import fs from "fs";
+const qrText = document.getElementById("qrText");
+const generateBtn = document.getElementById("generateBtn");
+const qrImage = document.getElementById("qrImage");
 
-inquirer
-  .prompt([
-    {
-      message: "Type in your URL: ",
-      name: "URL",
-    },
-  ])
-  .then((answers) => {
-    const url = answers.URL;
-    var qr_svg = qr.image(url);
-    qr_svg.pipe(fs.createWriteStream("qr_img.png"));
+generateBtn.addEventListener("click", function () {
 
-    fs.writeFile("URL.txt", url, (err) => {
-      if (err) throw err;
-      console.log("The file has been saved!");
-    });
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
+    if (qrText.value === "") {
+        alert("Please enter some text or a URL.");
+        return;
     }
-  });
+
+    const apiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=";
+
+    qrImage.src = apiUrl + encodeURIComponent(qrText.value);
+
+});
