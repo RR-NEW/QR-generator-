@@ -99,18 +99,3 @@ body{
 
 /* Responsive */
 
-@media(max-width:480px){
-
-.container{
-    padding:25px 20px;
-}
-
-.container h1{
-    font-size:1.7rem;
-}
-
-.button-box button{
-    font-size:15px;
-}
-
-}
