@@ -2,15 +2,34 @@ const qrText = document.getElementById("qrText");
 const generateBtn = document.getElementById("generateBtn");
 const qrImage = document.getElementById("qrImage");
 
-generateBtn.addEventListener("click", function () {
+function generateQRCode() {
 
-    if (qrText.value === "") {
-        alert("Please enter some text or a URL.");
+    const text = qrText.value.trim();
+
+    if (text === "") {
+        alert("Please enter a URL or some text.");
+        qrText.focus();
         return;
     }
 
-    const apiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=";
+    // Disable button while generating
+    generateBtn.disabled = true;
+    generateBtn.innerText = "Generating...";
 
-    qrImage.src = apiUrl + encodeURIComponent(qrText.value);
+    // Generate QR Code
+    const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
 
-});
+    qrImage.src = qrURL;
+
+    qrImage.onload = function () {
+        generateBtn.disabled = false;
+        generateBtn.innerText = "Generate QR Code";
+    };
+
+    qrImage.onerror = function () {
+        alert("Failed to generate QR Code.");
+        generateBtn.disabled = false;
+        generateBtn.innerText = "Generate QR Code";
+    };
+}
+
