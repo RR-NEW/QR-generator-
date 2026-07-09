@@ -32,4 +32,13 @@ function generateQRCode() {
         generateBtn.innerText = "Generate QR Code";
     };
 }
+// Generate on button click
+generateBtn.addEventListener("click", generateQRCode);
+
+// Generate when Enter key is pressed
+qrText.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        generateQRCode();
+    }
+});
 
