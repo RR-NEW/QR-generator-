@@ -1,55 +1,44 @@
-const input = document.getElementById("qr-text");
-const button = document.getElementById("generate-btn");
-const qrImage = document.getElementById("qr-image");
-const downloadBtn = document.getElementById("download-btn");
-const message = document.getElementById("message");
+const qrText = document.getElementById("qrText");
+const generateBtn = document.getElementById("generateBtn");
+const qrImage = document.getElementById("qrImage");
 
-function generateQR() {
+function generateQRCode() {
 
-    const text = input.value.trim();
+    const text = qrText.value.trim();
 
     if (text === "") {
-        message.innerHTML = "⚠ Please enter text or a URL.";
-        qrImage.style.display = "none";
-        downloadBtn.style.display = "none";
+        alert("Please enter a URL or some text.");
+        qrText.focus();
         return;
     }
 
-    message.innerHTML = "Generating QR Code...";
+    // Disable button while generating
+    generateBtn.disabled = true;
+    generateBtn.innerText = "Generating...";
 
-    const qrURL =
-        `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
+    // Generate QR Code
+    const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
 
     qrImage.src = qrURL;
 
     qrImage.onload = function () {
-        message.innerHTML = "✅ QR Code Generated!";
-        qrImage.style.display = "block";
-        downloadBtn.style.display = "inline-block";
+        generateBtn.disabled = false;
+        generateBtn.innerText = "Generate QR Code";
     };
 
     qrImage.onerror = function () {
-        message.innerHTML = "❌ Failed to generate QR Code.";
+        alert("Failed to generate QR Code.");
+        generateBtn.disabled = false;
+        generateBtn.innerText = "Generate QR Code";
     };
 }
 
-button.addEventListener("click", generateQR);
+// Generate on button click
+generateBtn.addEventListener("click", generateQRCode);
 
-input.addEventListener("keypress", function (event) {
+// Generate when Enter key is pressed
+qrText.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-        generateQR();
+        generateQRCode();
     }
-});
-
-downloadBtn.addEventListener("click", function () {
-
-    const link = document.createElement("a");
-
-    link.href = qrImage.src;
-    link.download = "QRCode.png";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
 });
